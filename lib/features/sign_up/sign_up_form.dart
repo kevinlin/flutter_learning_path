@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_learning_path/common/logger.dart';
 import 'package:flutter_learning_path/common/snack_bar.dart';
 import 'package:flutter_learning_path/features/sign_up/date_picker.dart';
+import 'package:flutter_learning_path/features/sign_up/gender_picker.dart';
 import 'package:flutter_learning_path/styling/text_field_styling.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -19,6 +20,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final heightTextController = TextEditingController();
   final weightTextController = TextEditingController();
   final dateOfBirthTextController = TextEditingController();
+  GenderType? selectedGender;
 
   @override
   void dispose() {
@@ -92,6 +94,20 @@ class _SignUpFormState extends State<SignUpForm> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Weight cannot be empty';
+              }
+              return null;
+            },
+          ),
+          GenderPicker(
+            selectedGender: selectedGender,
+            onChanged: (value) {
+              setState(() {
+                selectedGender = value;
+              });
+            },
+            validator: (_) {
+              if (selectedGender == null) {
+                return 'Gender must be selected';
               }
               return null;
             },
