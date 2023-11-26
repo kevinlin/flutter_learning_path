@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learning_path/features/initial/InitialPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,11 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const Placeholder(),
+      home: const InitialPage(),
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          background: Colors.black,
+          background: Colors.grey.shade800,
           seedColor: Colors.red,
           onSurface: Colors.white,
         ),
