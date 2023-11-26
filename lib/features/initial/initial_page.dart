@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learning_path/router/routes.dart';
+import 'package:go_router/go_router.dart';
 
 class InitialPage extends StatelessWidget {
   const InitialPage({Key? key});
@@ -21,6 +23,7 @@ class InitialPage extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   print("Sign in pressed");
+                  context.push(Routes.signUp);
                 },
                 child: Text("Sign In"),
               ),
