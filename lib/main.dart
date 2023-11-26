@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_learning_path/features/initial/InitialPage.dart';
+import 'package:flutter_learning_path/router/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,12 +9,14 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}): super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const InitialPage(),
+    return MaterialApp.router(
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
+      routerDelegate: router.routerDelegate,
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
         datePickerTheme: DatePickerThemeData(
           yearForegroundColor:
-          MaterialStateColor.resolveWith((states) => Colors.white),
+              MaterialStateColor.resolveWith((states) => Colors.white),
           yearStyle: TextStyle(color: Colors.white),
         ),
       ),
