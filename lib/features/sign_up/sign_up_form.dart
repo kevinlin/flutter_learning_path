@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_learning_path/common/logger.dart';
 import 'package:flutter_learning_path/common/snack_bar.dart';
+import 'package:flutter_learning_path/features/sign_up/date_picker.dart';
 import 'package:flutter_learning_path/styling/text_field_styling.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -17,10 +18,15 @@ class _SignUpFormState extends State<SignUpForm> {
   final passwordTextController = TextEditingController();
   final heightTextController = TextEditingController();
   final weightTextController = TextEditingController();
+  final dateOfBirthTextController = TextEditingController();
 
   @override
   void dispose() {
     emailTextController.dispose();
+    passwordTextController.dispose();
+    heightTextController.dispose();
+    weightTextController.dispose();
+    dateOfBirthTextController.dispose();
     super.dispose();
   }
 
@@ -57,6 +63,10 @@ class _SignUpFormState extends State<SignUpForm> {
               return null;
             },
           ),
+          DatePicker(
+            title: "Date of Birth",
+            controller: dateOfBirthTextController,
+          ),
           TextFormField(
             textAlign: TextAlign.left,
             controller: heightTextController,
@@ -89,8 +99,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ElevatedButton(
             onPressed: () {
               FocusScope.of(context).unfocus();
-              final isFormValid =
-                  formKey.currentState?.validate() ?? false;
+              final isFormValid = formKey.currentState?.validate() ?? false;
 
               if (isFormValid) {
                 logger.i("Saving data...");
