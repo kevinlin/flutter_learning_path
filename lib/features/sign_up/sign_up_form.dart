@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_learning_path/common/logger.dart';
 import 'package:flutter_learning_path/common/snack_bar.dart';
+import 'package:flutter_learning_path/common/string_extension.dart';
 import 'package:flutter_learning_path/features/sign_up/date_picker.dart';
 import 'package:flutter_learning_path/features/sign_up/gender_picker.dart';
+import 'package:flutter_learning_path/features/sign_up/sign_up_view_model.dart';
+import 'package:flutter_learning_path/router/routes.dart';
 import 'package:flutter_learning_path/styling/text_field_styling.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -14,6 +17,7 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  final SignUpViewModel signUpViewModel = SignUpViewModel();
   final formKey = GlobalKey<FormState>();
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
@@ -124,14 +128,37 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
                 SizedBox(height: 15),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     FocusScope.of(context).unfocus();
                     final isFormValid =
                         formKey.currentState?.validate() ?? false;
 
                     if (isFormValid) {
-                      logger.i("Saving data...");
                       showSnackBar(context, 'Saving data...');
+
+                      final (isSuccess, errorText) =
+                          await signUpViewModel.signUp(
+                        email: emailTextController.text,
+                        password: passwordTextController.text,
+                        gender: selectedGender,
+                        dateOfBirth: dateOfBirthTextController.text
+                            .fromDateTextToDateTime(),
+                        height: int.parse(heightTextController.text),
+                        weight: int.parse(weightTextController.text),
+                      );
+
+                      if (mounted) {
+                        if (isSuccess) {
+                          showSnackBar(context, 'User created successfully',
+                              Colors.green);
+                          return context.go(Routes.initial);
+                        } else if (errorText != null) {
+                          showSnackBar(context, errorText, Colors.red);
+                        } else {
+                          showSnackBar(
+                              context, 'Error creating user', Colors.red);
+                        }
+                      }
                     }
                   },
                   child: Text("Submit"),

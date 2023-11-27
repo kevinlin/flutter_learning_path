@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_learning_path/common/data_time_extension.dart';
+import 'package:flutter_learning_path/common/date_time_extension.dart';
 import 'package:flutter_learning_path/styling/text_field_styling.dart';
 import 'package:go_router/go_router.dart';
 
