@@ -22,8 +22,7 @@ class InitialPage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  print("Sign in pressed");
-                  context.push(Routes.signUp);
+                  context.push(Routes.signIn);
                 },
                 child: Text("Sign In"),
               ),
