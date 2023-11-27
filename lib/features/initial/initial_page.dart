@@ -28,7 +28,7 @@ class InitialPage extends StatelessWidget {
               ),
               OutlinedButton(
                 onPressed: () {
-                  print("Sign up pressed");
+                  context.push(Routes.signUp);
                 },
                 child: Text("Sign Up"),
               ),

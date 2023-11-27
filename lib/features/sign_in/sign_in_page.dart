@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learning_path/common/snack_bar.dart';
 import 'package:flutter_learning_path/features/sign_in/sign_in_view_model.dart';
+import 'package:flutter_learning_path/router/routes.dart';
 import 'package:flutter_learning_path/styling/text_field_styling.dart';
 import 'package:go_router/go_router.dart';
 
@@ -87,7 +88,7 @@ class _SignInPageState extends State<SignInPage> {
 
                         if (mounted) {
                           if (isSuccess) {
-                            // TODO update when we have created upcoming page
+                            context.go(Routes.upcoming);
                           } else {
                             showSnackBar(context, 'Check your email or password', Colors.red);
                           }
