@@ -6,7 +6,7 @@ import 'package:flutter_learning_path/styling/text_field_styling.dart';
 import 'package:go_router/go_router.dart';
 
 class SignInPage extends StatefulWidget {
-  const SignInPage({Key? key}) : super(key: key);
+  const SignInPage({super.key});
 
   @override
   State<SignInPage> createState() => _SignInPageState();

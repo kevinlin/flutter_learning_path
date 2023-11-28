@@ -3,7 +3,7 @@ import 'package:flutter_learning_path/features/sign_up/sign_up_form.dart';
 import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {

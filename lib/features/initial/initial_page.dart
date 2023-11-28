@@ -3,7 +3,7 @@ import 'package:flutter_learning_path/router/routes.dart';
 import 'package:go_router/go_router.dart';
 
 class InitialPage extends StatelessWidget {
-  const InitialPage({Key? key});
+  const InitialPage({super.key});
 
   @override
   Widget build(BuildContext context) {

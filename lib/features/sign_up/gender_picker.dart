@@ -5,11 +5,11 @@ enum GenderType { MALE, FEMALE }
 
 class GenderPicker extends StatelessWidget {
   const GenderPicker({
-    Key? key,
+    super.key,
     required this.selectedGender,
     required this.onChanged,
     required this.validator,
-  }) : super(key: key);
+  });
 
   final GenderType? selectedGender;
   final void Function(GenderType?)? onChanged;

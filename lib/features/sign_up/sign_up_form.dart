@@ -10,7 +10,7 @@ import 'package:flutter_learning_path/styling/text_field_styling.dart';
 import 'package:go_router/go_router.dart';
 
 class SignUpForm extends StatefulWidget {
-  const SignUpForm({Key? key}) : super(key: key);
+  const SignUpForm({super.key});
 
   @override
   State<SignUpForm> createState() => _SignUpFormState();

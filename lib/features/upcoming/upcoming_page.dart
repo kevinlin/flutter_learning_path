@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class UpcomingPage extends ConsumerStatefulWidget {
-  const UpcomingPage({Key? key}) : super(key: key);
+  const UpcomingPage({super.key});
 
   @override
   ConsumerState createState() => _UpcomingPageState();

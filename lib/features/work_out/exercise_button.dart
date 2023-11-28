@@ -3,11 +3,11 @@ import 'package:flutter_learning_path/styling/text_styling_extension.dart';
 
 class ExerciseButton extends StatelessWidget {
   const ExerciseButton({
-    Key? key,
+    super.key,
     required this.currentReps,
     required this.targetReps,
     required this.handlePress,
-  }) : super(key: key);
+  });
 
   final int? currentReps;
   final int targetReps;
