@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learning_path/common/snack_bar.dart';
+import 'package:flutter_learning_path/features/upcoming/upcoming_card.dart';
 import 'package:flutter_learning_path/features/upcoming/upcoming_notifier.dart';
 import 'package:flutter_learning_path/router/routes.dart';
 import 'package:flutter_learning_path/styling/text_styling_extension.dart';
@@ -38,7 +39,10 @@ class _UpcomingPageState extends ConsumerState<UpcomingPage> {
       ),
       body: ListView.builder(
         itemCount: workoutList.length,
-        itemBuilder: (context, index) => Text(workoutList[index].toString()),
+        itemBuilder: (context, index) {
+          var workout = workoutList[index];
+          return new UpcomingCard(workout: workout);
+        },
       ),
     );
   }

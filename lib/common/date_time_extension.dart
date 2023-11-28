@@ -1,9 +1,8 @@
+import 'package:intl/intl.dart';
+
 extension DateTimeExtension on DateTime {
   String toDateOnlyText() {
-    final dayString = day.toString().padLeft(2, '0');
-    final monthString = month.toString().padLeft(2, '0');
-    final yearString = year.toString();
-    return "$dayString/$monthString/$yearString";
+    return DateFormat('dd/MM/yyyy').format(this);
   }
 
   bool isToday() {
