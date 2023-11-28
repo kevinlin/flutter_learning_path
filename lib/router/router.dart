@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_learning_path/constants/app_constants.dart';
 import 'package:flutter_learning_path/core/auth/auth_service.dart';
+import 'package:flutter_learning_path/core/service_locator.dart';
 import 'package:flutter_learning_path/core/storage/storage_service.dart';
 import 'package:flutter_learning_path/features/initial/initial_page.dart';
 import 'package:flutter_learning_path/features/sign_in/sign_in_page.dart';
@@ -13,8 +14,8 @@ import 'package:go_router/go_router.dart';
 GoRouter router = GoRouter(
   initialLocation: Routes.initial,
   redirect: (BuildContext context, GoRouterState state) async {
-    final storageService = DefaultStorageService();
-    final authService = DefaultAuthService();
+    final storageService = getIt<StorageService>();
+    final authService = getIt<AuthService>();
 
     final token = await storageService.readSecureData(AppConstants.TOKEN_KEY);
     final isTokenValid = authService.isTokenValid(token ?? "");

@@ -1,4 +1,5 @@
 import 'package:flutter_learning_path/common/logger.dart';
+import 'package:flutter_learning_path/core/service_locator.dart';
 import 'package:flutter_learning_path/data/work_out/work_out_history_payload.dart';
 import 'package:flutter_learning_path/data/work_out/work_out_repository.dart';
 import 'package:flutter_learning_path/data/work_out/work_out_upcoming_payload.dart';
@@ -17,7 +18,7 @@ class WorkOutNotifier extends Notifier<WorkOutState> {
     return _initialState;
   }
 
-  final _repository = DefaultWorkOutRepository();
+  final _repository = getIt<WorkOutRepository>();
 
   void setWorkOut(WorkOutUpcomingPayload value) {
     List<ExerciseHistory> exerciseRecords = state.exerciseRecords;

@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_learning_path/common/logger.dart';
+import 'package:flutter_learning_path/core/service_locator.dart';
 import 'package:flutter_learning_path/data/auth/auth_payload.dart';
 import 'package:flutter_learning_path/data/auth/user_data_payload.dart';
 import 'package:flutter_learning_path/features/sign_up/gender_picker.dart';
 import 'package:flutter_learning_path/data/auth/auth_repository.dart';
 
 class SignUpViewModel {
-  final _authRepository = DefaultAuthRepository();
+  final _authRepository = getIt<AuthRepository>();
 
   Future<(bool isSuccess, String? errorText)> signUp({
     required String email,

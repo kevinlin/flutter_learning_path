@@ -1,4 +1,5 @@
 import 'package:flutter_learning_path/constants/app_constants.dart';
+import 'package:flutter_learning_path/core/service_locator.dart';
 import 'package:flutter_learning_path/core/storage/storage_service.dart';
 import 'package:flutter_learning_path/data/work_out/work_out_repository.dart';
 import 'package:flutter_learning_path/features/upcoming/upcoming_state.dart';
@@ -12,8 +13,8 @@ class UpcomingNotifier extends Notifier<UpcomingState> {
     );
   }
 
-  final _workOutRepository = DefaultWorkOutRepository();
-  final _storageService = DefaultStorageService();
+  final _workOutRepository = getIt<WorkOutRepository>();
+  final _storageService = getIt<StorageService>();
 
   Future<void> getWorkOut() async {
     try {

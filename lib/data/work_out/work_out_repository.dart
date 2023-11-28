@@ -1,9 +1,10 @@
 import 'package:flutter_learning_path/common/http_client.dart';
 import 'package:flutter_learning_path/common/logger.dart';
+import 'package:flutter_learning_path/constants/app_constants.dart';
+import 'package:flutter_learning_path/core/service_locator.dart';
+import 'package:flutter_learning_path/core/storage/storage_service.dart';
 import 'package:flutter_learning_path/data/work_out/work_out_history_payload.dart';
 import 'package:flutter_learning_path/data/work_out/work_out_upcoming_payload.dart';
-import 'package:flutter_learning_path/constants/app_constants.dart';
-import 'package:flutter_learning_path/core/storage/storage_service.dart';
 
 abstract class WorkOutRepository {
   Future<List<WorkOutUpcomingPayload>> getWorkOutList();
@@ -40,7 +41,7 @@ class DefaultWorkOutRepository implements WorkOutRepository {
   }
 
   Future<String> _getToken() async {
-    final storageService = DefaultStorageService();
+    final storageService = getIt<StorageService>();
     return await storageService.readSecureData(AppConstants.TOKEN_KEY) ?? "";
   }
 }
