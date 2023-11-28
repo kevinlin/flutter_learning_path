@@ -6,6 +6,7 @@ import 'package:flutter_learning_path/features/initial/initial_page.dart';
 import 'package:flutter_learning_path/features/sign_in/sign_in_page.dart';
 import 'package:flutter_learning_path/features/sign_up/sign_up_page.dart';
 import 'package:flutter_learning_path/features/upcoming/upcoming_page.dart';
+import 'package:flutter_learning_path/features/work_out/work_out_page.dart';
 import 'package:flutter_learning_path/router/routes.dart';
 import 'package:go_router/go_router.dart';
 
@@ -47,6 +48,10 @@ GoRouter router = GoRouter(
     GoRoute(
       path: Routes.upcoming,
       builder: (context, state) => UpcomingPage(),
+    ),
+    GoRoute(
+      path: Routes.workout,
+      builder: (context, state) => WorkOutPage(),
     ),
   ],
 );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_learning_path/common/snack_bar.dart';
 import 'package:flutter_learning_path/features/upcoming/upcoming_card.dart';
 import 'package:flutter_learning_path/features/upcoming/upcoming_notifier.dart';
+import 'package:flutter_learning_path/features/work_out/work_out_notifier.dart';
 import 'package:flutter_learning_path/router/routes.dart';
 import 'package:flutter_learning_path/styling/text_styling_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,7 +42,14 @@ class _UpcomingPageState extends ConsumerState<UpcomingPage> {
         itemCount: workoutList.length,
         itemBuilder: (context, index) {
           var workout = workoutList[index];
-          return new UpcomingCard(workout: workout);
+          return GestureDetector(
+              onTap: index == 0
+                  ? () {
+                      ref.read($workout.notifier).setWorkOut(workout);
+                      context.go(Routes.workout);
+                    }
+                  : null,
+              child: UpcomingCard(workout: workout));
         },
       ),
     );
