@@ -78,9 +78,11 @@ void main() {
 
       await tester.tap(find.text("5").first);
       await tester.pump(Duration(seconds: 1));
+      await tester.screenshot();
       expect(find.text("Wait for 3 : 00"), findsOneWidget);
 
       await tester.pump(Duration(seconds: 1));
+      await tester.screenshot();
       expect(find.text("Wait for 2 : 59"), findsOneWidget);
     },
   );

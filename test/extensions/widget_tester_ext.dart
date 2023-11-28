@@ -1,50 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learning_path/main.dart';
 import 'package:flutter_learning_path/router/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-var appTheme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    background: Colors.grey.shade800,
-    seedColor: Colors.red,
-    onSurface: Colors.white,
-  ),
-  textTheme: TextTheme(
-    // headlineLarge: TextStyle(color: Colors.red), // unused
-    // headlineMedium: TextStyle(color: Colors.red), // unused
-    headlineSmall: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w700,
-    ),
-    // titleLarge: TextStyle(color: Colors.red), // unused
-    titleMedium: TextStyle(color: Colors.red),
-    // titleSmall: TextStyle(color: Colors.red), // unused
-    bodyLarge: TextStyle(color: Colors.white),
-    bodyMedium: TextStyle(color: Colors.white),
-    bodySmall: TextStyle(color: Colors.white),
-    // labelLarge: TextStyle(), // unused
-    labelMedium: TextStyle(color: Colors.grey),
-    labelSmall: TextStyle(color: Colors.red),
-  ),
-  cardColor: Colors.white30,
-  iconTheme: IconThemeData(color: Colors.white),
-  datePickerTheme: DatePickerThemeData(
-    yearForegroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
-    yearStyle: TextStyle(color: Colors.white),
-  ),
-);
+import '../config/setup_dimentions.dart';
 
 extension PumpApp on WidgetTester {
   /// **Purpose:** For testing widgets that are not pages
   ///
-  /// **Limitation**: For simplicity, this WidgetTester method does not apply redirect logic,
-  /// we recommend using `pumpPageWidget` if you need to test router redirection.
-  ///
   /// **Example:** `pumpCustomWidget(SignUpForm())`
   ///
   /// **Note**: Optionally accepts a Riverpod container for state manipulation
-  Future<void> pumpCustomWidget(Widget widget, {ProviderContainer? container}) async {
+  ///
+  /// **Limitation**: Redirect logic might cause unexpected behaviour during navigation,
+  /// we recommend using `pumpPageWidget` if you need to test for redirect correctness
+  Future<void> pumpCustomWidget(
+    Widget widget, {
+    ProviderContainer? container,
+  }) async {
+    await setupDimensions(this);
     await pumpWidget(
       UncontrolledProviderScope(
         container: container ?? ProviderContainer(),
@@ -55,14 +30,20 @@ extension PumpApp on WidgetTester {
       ),
     );
     await pumpAndSettle();
+    await _primeAssets(this);
+    await screenshot();
   }
 
-  /// **Purpose**: For testing pages (also tests redirection behaviour)
+  /// **Purpose**: For testing pages
   ///
   /// **Example**: `pumpPageWidget(Routes.workout)`
   ///
   /// **Note**: Optionally accepts a Riverpod container for state manipulation
-  Future<void> pumpPageWidget(String location, {ProviderContainer? container}) async {
+  Future<void> pumpPageWidget(
+    String location, {
+    ProviderContainer? container,
+  }) async {
+    await setupDimensions(this);
     await pumpWidget(
       UncontrolledProviderScope(
         container: container ?? ProviderContainer(),
@@ -73,5 +54,65 @@ extension PumpApp on WidgetTester {
       ),
     );
     await pumpAndSettle();
+    await _primeAssets(this);
+    await screenshot();
+  }
+
+  static int screenshotCount = 1;
+  static String tempTestDescription = "";
+
+  Future<void> screenshot() async {
+    if (tempTestDescription != testDescription) {
+      tempTestDescription = testDescription;
+      screenshotCount = 1;
+    }
+
+    if (screenshotCount == 1) {
+      // ignore: avoid_print
+      print("\nScreenshots generated if --update-goldens is used\n\n");
+    }
+
+    final countSuffix = '-ss$screenshotCount';
+
+    // so that folders are not created if the test description has slashes
+    final updatedTaskDescription = testDescription.replaceAll("/", "-");
+
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/$updatedTaskDescription$countSuffix.png'),
+    ).onError((error, stackTrace) {
+      // this prevents test error if --update-goldens is not used
+    });
+    screenshotCount += 1;
+  }
+
+  /// ensures images will be shown in screenshots
+  Future<void> _primeAssets(WidgetTester tester) async {
+    final imageElements = find.byType(Image, skipOffstage: false).evaluate();
+    final decoratedBoxElements = find.byType(DecoratedBox, skipOffstage: false).evaluate();
+
+    if (imageElements.isEmpty && decoratedBoxElements.isEmpty) {
+      return;
+    }
+
+    await tester.runAsync(() async {
+      for (final imageElement in imageElements) {
+        final widget = imageElement.widget;
+        if (widget is Image) {
+          await precacheImage(widget.image, imageElement);
+          await tester.pump();
+        }
+      }
+      for (final decoratedBox in decoratedBoxElements) {
+        final widget = decoratedBox.widget as DecoratedBox;
+        final decoration = widget.decoration;
+        if (decoration is BoxDecoration) {
+          if (decoration.image != null) {
+            await precacheImage(decoration.image!.image, decoratedBox);
+            await tester.pump();
+          }
+        }
+      }
+    });
   }
 }

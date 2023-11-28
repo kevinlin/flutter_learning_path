@@ -1,6 +1,8 @@
 # Project related
 /coverage/
 /lib/constants/env_constants.dart
+**/failures/
+**/goldens/
 
 # Miscellaneous
 *.class
