@@ -1,0 +1,18 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    use_key_in_widget_constructors: ignore
+    constant_identifier_names: ignore
+    non_constant_identifier_names: ignore
+    invalid_annotation_target: ignore
+    invalid_use_of_protected_member: ignore
+
+linter:
+  rules:
+    sort_child_properties_last: false
+    camel_case_types: true
+    unawaited_futures: true
+    prefer_const_constructors: false
+    prefer_const_literals_to_create_immutables: false
+    constant_identifier_names: false
