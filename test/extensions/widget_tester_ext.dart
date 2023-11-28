@@ -4,7 +4,7 @@ import 'package:flutter_learning_path/router/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../config/setup_dimentions.dart';
+// import '../config/setup_dimentions.dart';
 
 extension PumpApp on WidgetTester {
   /// **Purpose:** For testing widgets that are not pages
@@ -19,7 +19,7 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     ProviderContainer? container,
   }) async {
-    await setupDimensions(this);
+    // await setupDimensions(this);
     await pumpWidget(
       UncontrolledProviderScope(
         container: container ?? ProviderContainer(),
@@ -43,7 +43,7 @@ extension PumpApp on WidgetTester {
     String location, {
     ProviderContainer? container,
   }) async {
-    await setupDimensions(this);
+    // await setupDimensions(this);
     await pumpWidget(
       UncontrolledProviderScope(
         container: container ?? ProviderContainer(),
