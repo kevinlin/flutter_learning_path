@@ -14,6 +14,8 @@ import '../../config/setup_service_locator.dart';
 import '../../extensions/widget_tester_ext.dart';
 import '../../mocks/nice_mocks.mocks.dart';
 
+const excludeFromCoverage = "excludeFromCoverage";
+
 void main() {
   late MockAuthService authService;
   late MockStorageService storageService;
@@ -33,7 +35,7 @@ void main() {
 
     expect(find.byType(InitialPage), findsOneWidget);
     expect(find.text("Keep track of your lifting goals"), findsOneWidget);
-  });
+  }, tags: excludeFromCoverage);
 
   testWidgets('given invalid token, when SignInPage is requested, it renders SignInPage',
       (tester) async {
@@ -42,7 +44,7 @@ void main() {
 
     await tester.pumpPageWidget(Routes.signIn);
     expect(find.byType(SignInPage), findsOneWidget);
-  });
+  }, tags: excludeFromCoverage);
 
   testWidgets('given valid token, when SignUpPage is requested, it renders SignUpPage',
       (tester) async {
@@ -51,16 +53,7 @@ void main() {
 
     await tester.pumpPageWidget(Routes.signUp);
     expect(find.byType(SignUpPage), findsOneWidget);
-  });
-
-  testWidgets('given invalid token, when UpcomingPage is requested, it renders InitialPage',
-      (tester) async {
-    when(storageService.readSecureData(any)).thenAnswer((_) => Future(() => 'token'));
-    when(authService.isTokenValid(any)).thenReturn(false);
-
-    await tester.pumpPageWidget(Routes.upcoming);
-    expect(find.byType(InitialPage), findsOneWidget);
-  });
+  }, tags: excludeFromCoverage);
 
   testWidgets('given valid token, when UpcomingPage is requested, it renders UpcomingPage',
       (tester) async {
@@ -69,16 +62,16 @@ void main() {
 
     await tester.pumpPageWidget(Routes.upcoming);
     expect(find.byType(UpcomingPage), findsOneWidget);
-  });
+  }, tags: excludeFromCoverage);
 
-  testWidgets('given invalid token, when WorkoutPage is requested, it renders InitialPage',
+  testWidgets('given invalid token, when UpcomingPage is requested, it renders InitialPage',
       (tester) async {
     when(storageService.readSecureData(any)).thenAnswer((_) => Future(() => 'token'));
     when(authService.isTokenValid(any)).thenReturn(false);
 
-    await tester.pumpPageWidget(Routes.workout);
+    await tester.pumpPageWidget(Routes.upcoming);
     expect(find.byType(InitialPage), findsOneWidget);
-  });
+  }, tags: excludeFromCoverage);
 
   testWidgets('given valid token, when WorkoutPage is requested, it renders WorkoutPage',
       (tester) async {
@@ -87,5 +80,14 @@ void main() {
 
     await tester.pumpPageWidget(Routes.workout);
     expect(find.byType(WorkOutPage), findsOneWidget);
-  });
+  }, tags: excludeFromCoverage);
+
+  testWidgets('given invalid token, when WorkoutPage is requested, it renders InitialPage',
+      (tester) async {
+    when(storageService.readSecureData(any)).thenAnswer((_) => Future(() => 'token'));
+    when(authService.isTokenValid(any)).thenReturn(false);
+
+    await tester.pumpPageWidget(Routes.workout);
+    expect(find.byType(InitialPage), findsOneWidget);
+  }, tags: excludeFromCoverage);
 }

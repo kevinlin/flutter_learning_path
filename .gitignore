@@ -1,5 +1,6 @@
 # Project related
-env_constants.dart
+/coverage/
+/lib/constants/env_constants.dart
 
 # Miscellaneous
 *.class
