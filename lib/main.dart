@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learning_path/router/router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    const MyApp(),
+    ProviderScope(child: const MyApp()),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +45,7 @@ class MyApp extends StatelessWidget {
         cardColor: Colors.white30,
         iconTheme: IconThemeData(color: Colors.white),
         datePickerTheme: DatePickerThemeData(
-          yearForegroundColor:
-              MaterialStateColor.resolveWith((states) => Colors.white),
+          yearForegroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
           yearStyle: TextStyle(color: Colors.white),
         ),
       ),

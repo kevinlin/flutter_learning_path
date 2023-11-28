@@ -21,8 +21,7 @@ class DefaultStorageService implements StorageService {
 
   @override
   Future<String?> readSecureData(String key) async {
-    var readData = await _secureStorage.read(key: key, aOptions: _getAndroidOptions());
-    return readData;
+    return await _secureStorage.read(key: key, aOptions: _getAndroidOptions());
   }
 
   @override
