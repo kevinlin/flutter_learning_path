@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learning_path/common/snack_bar.dart';
 import 'package:flutter_learning_path/features/upcoming/upcoming_notifier.dart';
+import 'package:flutter_learning_path/features/work_out/countdown_display.dart';
 import 'package:flutter_learning_path/features/work_out/exercise_row.dart';
+import 'package:flutter_learning_path/features/work_out/timer_notifier.dart';
 import 'package:flutter_learning_path/features/work_out/work_out_notifier.dart';
 import 'package:flutter_learning_path/router/routes.dart';
 import 'package:flutter_learning_path/styling/text_styling_extension.dart';
@@ -16,6 +18,23 @@ class WorkOutPage extends ConsumerStatefulWidget {
 }
 
 class _WorkOutPageState extends ConsumerState<WorkOutPage> {
+  late TimerNotifier timerNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    timerNotifier = ref.read($timer.notifier);
+    Future.microtask(() {
+      timerNotifier.createTimer();
+    });
+  }
+
+  @override
+  void dispose() {
+    timerNotifier.destroyTimer();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final workout = ref.watch($workout.select((value) => value.workOut));
@@ -29,6 +48,7 @@ class _WorkOutPageState extends ConsumerState<WorkOutPage> {
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
               onPressed: () async {
+                ref.read($timer.notifier).stopCountdown();
                 final isSuccess = await ref.read($workout.notifier).submitWorkOut();
                 if (isSuccess) {
                   await ref.read($upcoming.notifier).getWorkOut();
@@ -63,6 +83,10 @@ class _WorkOutPageState extends ConsumerState<WorkOutPage> {
                 },
               ),
             ),
+      bottomNavigationBar: SizedBox(
+        height: 100,
+        child: CountdownDisplay(),
+      ),
     );
   }
 }

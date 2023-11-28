@@ -9,4 +9,8 @@ extension DateTimeExtension on DateTime {
     final now = DateTime.now();
     return now.day == day && now.month == month && now.year == year;
   }
+
+  int secondsFromNow() {
+    return difference(DateTime.now()).inSeconds;
+  }
 }

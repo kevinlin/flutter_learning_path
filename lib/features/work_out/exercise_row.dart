@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learning_path/features/work_out/exercise_button.dart';
+import 'package:flutter_learning_path/features/work_out/timer_notifier.dart';
 import 'package:flutter_learning_path/features/work_out/work_out_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -50,6 +51,14 @@ class ExercisesRow extends ConsumerWidget {
                         ref
                             .read($workout.notifier)
                             .updateExerciseRecord(exerciseIndex, setIndex, updatedCount);
+
+                        final timerNotifier = ref.read($timer.notifier);
+                        if (updatedCount == null) {
+                          timerNotifier.stopCountdown();
+                        } else {
+                          final hasReachedTargetReps = updatedCount == exercise.targetReps;
+                          timerNotifier.startCountdown(hasReachedTargetReps: hasReachedTargetReps);
+                        }
                       },
                     );
                   }),
