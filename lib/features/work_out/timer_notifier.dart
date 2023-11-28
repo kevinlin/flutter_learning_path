@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:flutter_learning_path/common/date_time_extension.dart';
 import 'package:flutter_learning_path/constants/app_constants.dart';
 import 'package:flutter_learning_path/features/work_out/timer_state.dart';
@@ -22,7 +23,7 @@ class TimerNotifier extends Notifier<TimerState> {
     _timer = Timer.periodic(Duration(seconds: 1), (_) {});
     final countdownDateTime = state.countdownDateTime;
     // if countdownDateTime is in the future, set the correct number of seconds
-    if (countdownDateTime != null && countdownDateTime.isAfter(DateTime.now())) {
+    if (countdownDateTime != null && countdownDateTime.isAfter(clock.now())) {
       state = state.copyWith(secondsLeft: countdownDateTime.secondsFromNow());
     } else {
       _resetState();
@@ -41,7 +42,7 @@ class TimerNotifier extends Notifier<TimerState> {
             ? AppConstants.DEFAULT_REST_DURATION
             : AppConstants.INCOMPLETE_SET_REST_DURATION);
 
-    final countdownDateTime = DateTime.now().add(duration);
+    final countdownDateTime = clock.now().add(duration);
 
     state = state.copyWith(
       countdownDateTime: countdownDateTime,

@@ -47,13 +47,59 @@ void main() {
     container.read($workout.notifier).setWorkOut(workOut);
   });
 
-  testWidgets('Given user taps back button, then they will go to upcoming page', (WidgetTester tester) async {
+  testWidgets(
+    'Given user taps back button, then they will go to upcoming page',
+    (WidgetTester tester) async {
       await tester.pumpCustomWidget(WorkOutPage(), container: container);
 
       final backButton = find.byIcon(Icons.arrow_back);
       await tester.tap(backButton);
       await tester.pumpAndSettle();
       expect(find.byType(UpcomingPage), findsOneWidget);
+    },
+  );
+
+  // custom predicates
+  textContainsWaitFor(Widget widget) => widget is Text && widget.data?.contains('Wait for') == true;
+
+  testWidgets(
+    'Given a workoutPage with exercises and user does not make any interactions, then it should not show any timer text',
+    (WidgetTester tester) async {
+      await tester.pumpCustomWidget(WorkOutPage(), container: container);
+
+      expect(find.byWidgetPredicate(textContainsWaitFor), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Given a workoutPage with exercises and user taps first rep, then it should show the correct timer text, and when we wait 1 second then wait time text decreases by 1 second',
+    (WidgetTester tester) async {
+      await tester.pumpCustomWidget(WorkOutPage(), container: container);
+
+      await tester.tap(find.text("5").first);
+      await tester.pump(Duration(seconds: 1));
+      expect(find.text("Wait for 3 : 00"), findsOneWidget);
+
+      await tester.pump(Duration(seconds: 1));
+      expect(find.text("Wait for 2 : 59"), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Given a workoutPage with exercises and user taps first rep, then it should show the correct timer text, and when we wait 3 mins then timer text should disappear',
+    (WidgetTester tester) async {
+      await tester.pumpCustomWidget(WorkOutPage(), container: container);
+
+      await tester.tap(find.text("5").first);
+      await tester.pump(Duration(seconds: 1));
+
+      final wait3MinFinder = find.text("Wait for 3 : 00");
+      expect(wait3MinFinder, findsOneWidget);
+
+      await tester.pump(Duration(seconds: 180));
+      // Checking for any text with "Wait for"
+      final countdownDisplayTextFinder = find.byWidgetPredicate(textContainsWaitFor);
+      expect(countdownDisplayTextFinder, findsNothing);
     },
   );
 }

@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:intl/intl.dart';
 
 extension DateTimeExtension on DateTime {
@@ -6,11 +7,11 @@ extension DateTimeExtension on DateTime {
   }
 
   bool isToday() {
-    final now = DateTime.now();
+    final now = clock.now();
     return now.day == day && now.month == month && now.year == year;
   }
 
   int secondsFromNow() {
-    return difference(DateTime.now()).inSeconds;
+    return difference(clock.now()).inSeconds;
   }
 }
