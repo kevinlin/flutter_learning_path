@@ -23,24 +23,9 @@ void main() {
       date: DateTime.now(),
       workoutType: "A",
       exercises: [
-        ExerciseUpcoming(
-          displayName: "Squat",
-          weight: 20,
-          targetReps: 5,
-          targetSets: 5,
-        ),
-        ExerciseUpcoming(
-          displayName: "Overhead Press",
-          weight: 20,
-          targetReps: 5,
-          targetSets: 5,
-        ),
-        ExerciseUpcoming(
-          displayName: "Deadlift",
-          weight: 20,
-          targetReps: 5,
-          targetSets: 5,
-        ),
+        ExerciseUpcoming(displayName: "Squat", weight: 20, targetReps: 5, targetSets: 5),
+        ExerciseUpcoming(displayName: "Overhead Press", weight: 20, targetReps: 5, targetSets: 5),
+        ExerciseUpcoming(displayName: "Deadlift", weight: 20, targetReps: 5, targetSets: 5),
       ],
     );
 
