@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_learning_path/common/snack_bar.dart';
 import 'package:flutter_learning_path/common/string_extension.dart';
 import 'package:flutter_learning_path/features/sign_up/date_picker.dart';
@@ -9,35 +10,21 @@ import 'package:flutter_learning_path/router/routes.dart';
 import 'package:flutter_learning_path/styling/text_field_styling.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpForm extends StatefulWidget {
-  const SignUpForm({super.key});
+class SignUpForm extends HookWidget {
+  SignUpForm({Key? key}) : super(key: key);
 
-  @override
-  State<SignUpForm> createState() => _SignUpFormState();
-}
-
-class _SignUpFormState extends State<SignUpForm> {
   final SignUpViewModel signUpViewModel = SignUpViewModel();
   final formKey = GlobalKey<FormState>();
-  final emailTextController = TextEditingController();
-  final passwordTextController = TextEditingController();
-  final heightTextController = TextEditingController();
-  final weightTextController = TextEditingController();
-  final dateOfBirthTextController = TextEditingController();
-  GenderType? selectedGender;
-
-  @override
-  void dispose() {
-    emailTextController.dispose();
-    passwordTextController.dispose();
-    heightTextController.dispose();
-    weightTextController.dispose();
-    dateOfBirthTextController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
+    final emailTextController = useTextEditingController();
+    final passwordTextController = useTextEditingController();
+    final dateOfBirthTextController = useTextEditingController();
+    final heightTextController = useTextEditingController();
+    final weightTextController = useTextEditingController();
+    final selectedGender = useState<GenderType?>(null);
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -113,14 +100,12 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
                 SizedBox(height: 15),
                 GenderPicker(
-                  selectedGender: selectedGender,
+                  selectedGender: selectedGender.value,
                   onChanged: (value) {
-                    setState(() {
-                      selectedGender = value;
-                    });
+                    selectedGender.value = value;
                   },
                   validator: (_) {
-                    if (selectedGender == null) {
+                    if (selectedGender.value == null) {
                       return 'Gender must be selected';
                     }
                     return null;
@@ -130,33 +115,28 @@ class _SignUpFormState extends State<SignUpForm> {
                 ElevatedButton(
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    final isFormValid =
-                        formKey.currentState?.validate() ?? false;
+                    final isFormValid = formKey.currentState?.validate() ?? false;
 
                     if (isFormValid) {
                       showSnackBar(context, 'Saving data...');
 
-                      final (isSuccess, errorText) =
-                          await signUpViewModel.signUp(
+                      final (isSuccess, errorText) = await signUpViewModel.signUp(
                         email: emailTextController.text,
                         password: passwordTextController.text,
-                        gender: selectedGender,
-                        dateOfBirth: dateOfBirthTextController.text
-                            .fromDateTextToDateTime(),
+                        gender: selectedGender.value,
+                        dateOfBirth: dateOfBirthTextController.text.fromDateTextToDateTime(),
                         height: int.parse(heightTextController.text),
                         weight: int.parse(weightTextController.text),
                       );
 
-                      if (mounted) {
+                      if (context.mounted) {
                         if (isSuccess) {
-                          showSnackBar(context, 'User created successfully',
-                              Colors.green);
+                          showSnackBar(context, 'User created successfully', Colors.green);
                           return context.go(Routes.initial);
                         } else if (errorText != null) {
                           showSnackBar(context, errorText, Colors.red);
                         } else {
-                          showSnackBar(
-                              context, 'Error creating user', Colors.red);
+                          showSnackBar(context, 'Error creating user', Colors.red);
                         }
                       }
                     }
