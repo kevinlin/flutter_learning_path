@@ -1,44 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_learning_path/common/snack_bar.dart';
 import 'package:flutter_learning_path/features/sign_in/sign_in_view_model.dart';
 import 'package:flutter_learning_path/router/routes.dart';
 import 'package:flutter_learning_path/styling/text_field_styling.dart';
 import 'package:go_router/go_router.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+class SignInPage extends HookWidget {
+  SignInPage({super.key});
 
-  @override
-  State<SignInPage> createState() => _SignInPageState();
-}
-
-class _SignInPageState extends State<SignInPage> {
   final signInViewModel = SignInViewModel();
-  final emailTextController = TextEditingController();
-  final passwordTextController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
-  void dispose() {
-    emailTextController.dispose();
-    passwordTextController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final emailTextController = useTextEditingController();
+    final passwordTextController = useTextEditingController();
+
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                context.pop();
-              }),
-          title: Text(
-            'Sign in',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
+          leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+          title: Text('Sign in', style: Theme.of(context).textTheme.headlineSmall),
           backgroundColor: Theme.of(context).colorScheme.background,
         ),
         body: Center(
@@ -74,9 +57,7 @@ class _SignInPageState extends State<SignInPage> {
                       return null;
                     },
                   ),
-                  SizedBox(
-                    height: 25,
-                  ),
+                  SizedBox(height: 25),
                   ElevatedButton(
                     onPressed: () async {
                       FocusScope.of(context).unfocus();
@@ -86,9 +67,9 @@ class _SignInPageState extends State<SignInPage> {
                         final isSuccess = await signInViewModel.login(
                             emailTextController.text, passwordTextController.text);
 
-                        if (mounted) {
+                        if (context.mounted) {
                           if (isSuccess) {
-                            context.go(Routes.upcoming);
+                            return context.go(Routes.upcoming);
                           } else {
                             showSnackBar(context, 'Check your email or password', Colors.red);
                           }
