@@ -1,27 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_learning_path/data/work_out/work_out_history_payload.dart';
 import 'package:flutter_learning_path/data/work_out/work_out_upcoming_payload.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-class WorkOutState {
-  const WorkOutState({
-    required this.workOut,
-    required this.exerciseRecords,
-    required this.isSubmitting,
-  });
+part 'work_out_state.freezed.dart';
 
-  final WorkOutUpcomingPayload workOut;
-  final List<ExerciseHistory> exerciseRecords;
-  final bool isSubmitting;
-
-  WorkOutState copyWith(
-      {WorkOutUpcomingPayload? workOut,
-      List<ExerciseHistory>? exerciseRecords,
-      bool? isSubmitting}) {
-    return WorkOutState(
-      workOut: workOut ?? this.workOut,
-      exerciseRecords: exerciseRecords ?? this.exerciseRecords,
-      isSubmitting: isSubmitting ?? this.isSubmitting,
-    );
-  }
+@freezed
+class WorkOutState with _$WorkOutState {
+  const factory WorkOutState({
+    required WorkOutUpcomingPayload workOut,
+    required List<ExerciseHistory> exerciseRecords,
+    required bool isSubmitting,
+  }) = _WorkOutState;
 }

@@ -1,13 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_learning_path/data/work_out/work_out_upcoming_payload.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-class UpcomingState {
-  const UpcomingState({required this.workOutList});
+part 'upcoming_state.freezed.dart';
 
-  final List<WorkOutUpcomingPayload> workOutList;
-
-  UpcomingState copyWith({List<WorkOutUpcomingPayload>? workOutList}) {
-    return UpcomingState(workOutList: workOutList ?? this.workOutList);
-  }
+@freezed
+class UpcomingState with _$UpcomingState {
+  const factory UpcomingState({
+    required List<WorkOutUpcomingPayload> workOutList,
+  }) = _UpcomingState;
 }

@@ -1,22 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-class TimerState {
-  const TimerState({
-    required this.countdownDateTime,
-    required this.secondsLeft,
-  });
+part 'timer_state.freezed.dart';
 
-  final DateTime? countdownDateTime;
-  final int secondsLeft;
-
-  TimerState copyWith({
-    DateTime? countdownDateTime,
-    int? secondsLeft,
-  }) {
-    return TimerState(
-      countdownDateTime: countdownDateTime ?? this.countdownDateTime,
-      secondsLeft: secondsLeft ?? this.secondsLeft,
-    );
-  }
+@freezed
+class TimerState with _$TimerState {
+  const factory TimerState({
+    required DateTime? countdownDateTime,
+    required int secondsLeft,
+  }) = _TimerState;
 }
