@@ -38,10 +38,8 @@ class DefaultAuthRepository implements AuthRepository {
   @override
   Future<String> signIn(AuthPayload authPayload) async {
     try {
-      final response = await AppDio.auth().post(
-        '/auth/v1/token?grant_type=password',
-        data: authPayload.toJson(),
-      );
+      final response = await AppDio.auth()
+          .post('/auth/v1/token?grant_type=password', data: authPayload.toJson());
       return AuthResponse.fromJson(response.data).accessToken;
     } catch (error) {
       logger.e(error);

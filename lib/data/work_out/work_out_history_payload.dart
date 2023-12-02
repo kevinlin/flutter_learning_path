@@ -1,64 +1,27 @@
-class WorkOutHistoryPayload {
-  String workoutType;
-  List<ExerciseHistory> exercises;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  WorkOutHistoryPayload(this.workoutType, this.exercises);
+part 'work_out_history_payload.freezed.dart';
+part 'work_out_history_payload.g.dart';
 
-  @override
-  String toString() {
-    return 'WorkOutHistoryPayload{workoutType: $workoutType, exercises: $exercises}';
-  }
+@freezed
+class WorkOutHistoryPayload with _$WorkOutHistoryPayload {
+  const factory WorkOutHistoryPayload(
+      String workoutType,
+      List<ExerciseHistory> exercises,
+      ) = _WorkOutHistoryPayload;
 
-  factory WorkOutHistoryPayload.fromJson(Map<String, dynamic> json) {
-    return WorkOutHistoryPayload(
-      json['workoutType'] as String,
-      (json['exercises'] as List<dynamic>)
-          .map((exerciseJson) => ExerciseHistory.fromJson(exerciseJson))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'workoutType': workoutType,
-      'exercises': exercises.map((exercise) => exercise.toJson()).toList()
-    };
-  }
+  factory WorkOutHistoryPayload.fromJson(Map<String, dynamic> json) =>
+      _$WorkOutHistoryPayloadFromJson(json);
 }
 
-class ExerciseHistory {
-  String displayName;
-  String weight;
-  List<int?> completedReps;
+@freezed
+class ExerciseHistory with _$ExerciseHistory {
+  factory ExerciseHistory(
+      String displayName,
+      String weight,
+      List<int?> completedReps,
+      ) = _ExerciseHistory;
 
-  ExerciseHistory(this.displayName, this.weight, this.completedReps);
-
-  ExerciseHistory copyWith({String? displayName, String? weight, List<int?>? completedReps}) {
-    return ExerciseHistory(
-      displayName ?? this.displayName,
-      weight ?? this.weight,
-      completedReps ?? this.completedReps,
-    );
-  }
-
-  factory ExerciseHistory.fromJson(Map<String, dynamic> json) {
-    return ExerciseHistory(
-      json['displayName'] as String,
-      json['weight'] as String,
-      (json['completedReps'] as List<dynamic>).cast<int>(),
-    );
-  }
-
-  @override
-  String toString() {
-    return 'ExerciseHistory{displayName: $displayName, weight: $weight, completedReps: $completedReps}';
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'displayName': displayName,
-      'weight': weight,
-      'completedReps': completedReps,
-    };
-  }
+  factory ExerciseHistory.fromJson(Map<String, dynamic> json) =>
+      _$ExerciseHistoryFromJson(json);
 }

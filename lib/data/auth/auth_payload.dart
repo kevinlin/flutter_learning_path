@@ -1,19 +1,14 @@
-class AuthPayload {
-  String email;
-  String password;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  AuthPayload(
-    this.email,
-    this.password,
-  );
+part 'auth_payload.freezed.dart';
+part 'auth_payload.g.dart';
 
-  @override
-  String toString() {
-    return 'AuthPayload{email: $email, password: $password}';
-  }
+@freezed
+class AuthPayload with _$AuthPayload {
+  const factory AuthPayload(
+    String email,
+    String password,
+  ) = _AuthPayload;
 
-  Map<String, dynamic> toJson() => {
-        "email": email,
-        "password": password,
-      };
+  factory AuthPayload.fromJson(Map<String, dynamic> json) => _$AuthPayloadFromJson(json);
 }

@@ -1,28 +1,23 @@
-class AuthResponse {
-  String accessToken;
-  User user;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  AuthResponse({
-    required this.accessToken,
-    required this.user,
-  });
+part 'auth_response.freezed.dart';
+part 'auth_response.g.dart';
 
-  factory AuthResponse.fromJson(Map<String, dynamic> json) {
-    return AuthResponse(
-      accessToken: json['access_token'] as String,
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
-    );
-  }
+@freezed
+class AuthResponse with _$AuthResponse {
+  const factory AuthResponse({
+    @JsonKey(name: 'access_token') required String accessToken,
+    required User user,
+  }) = _AuthResponse;
+
+  factory AuthResponse.fromJson(Map<String, dynamic> json) => _$AuthResponseFromJson(json);
 }
 
-class User {
-  String id;
+@freezed
+class User with _$User {
+  const factory User({
+    required String id,
+  }) = _User;
 
-  User({required this.id});
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'] as String,
-    );
-  }
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

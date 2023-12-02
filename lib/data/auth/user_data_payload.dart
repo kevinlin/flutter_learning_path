@@ -1,30 +1,19 @@
 import 'package:flutter_learning_path/features/sign_up/gender_picker.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class UserDataPayload {
-  String id;
-  GenderType? gender;
-  DateTime? dateOfBirth;
-  int height;
-  int weight;
+part 'user_data_payload.freezed.dart';
+part 'user_data_payload.g.dart';
 
-  UserDataPayload(
-    this.id,
-    this.gender,
-    this.dateOfBirth,
-    this.height,
-    this.weight,
-  );
+@freezed
+class UserDataPayload with _$UserDataPayload {
+  const factory UserDataPayload(
+      String id,
+      GenderType? gender,
+      DateTime? dateOfBirth,
+      int height,
+      int weight,
+      ) = _UserDataPayload;
 
-  @override
-  String toString() {
-    return 'UserDataPayload{id: $id, gender: $gender, dateOfBirth: $dateOfBirth, height: $height, weight: $weight}';
-  }
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "gender": gender?.name,
-        "dateOfBirth": dateOfBirth?.toIso8601String(),
-        "height": height,
-        "weight": weight,
-      };
+  factory UserDataPayload.fromJson(Map<String, dynamic> json) =>
+      _$UserDataPayloadFromJson(json);
 }

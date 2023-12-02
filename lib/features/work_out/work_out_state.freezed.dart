@@ -36,6 +36,8 @@ abstract class $WorkOutStateCopyWith<$Res> {
       {WorkOutUpcomingPayload workOut,
       List<ExerciseHistory> exerciseRecords,
       bool isSubmitting});
+
+  $WorkOutUpcomingPayloadCopyWith<$Res> get workOut;
 }
 
 /// @nodoc
@@ -70,6 +72,14 @@ class _$WorkOutStateCopyWithImpl<$Res, $Val extends WorkOutState>
               as bool,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $WorkOutUpcomingPayloadCopyWith<$Res> get workOut {
+    return $WorkOutUpcomingPayloadCopyWith<$Res>(_value.workOut, (value) {
+      return _then(_value.copyWith(workOut: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -84,6 +94,9 @@ abstract class _$$WorkOutStateImplCopyWith<$Res>
       {WorkOutUpcomingPayload workOut,
       List<ExerciseHistory> exerciseRecords,
       bool isSubmitting});
+
+  @override
+  $WorkOutUpcomingPayloadCopyWith<$Res> get workOut;
 }
 
 /// @nodoc
