@@ -11,7 +11,7 @@ import 'package:flutter_learning_path/styling/text_field_styling.dart';
 import 'package:go_router/go_router.dart';
 
 class SignUpForm extends HookWidget {
-  SignUpForm({Key? key}) : super(key: key);
+  SignUpForm({super.key});
 
   final SignUpViewModel signUpViewModel = SignUpViewModel();
   final formKey = GlobalKey<FormState>();
